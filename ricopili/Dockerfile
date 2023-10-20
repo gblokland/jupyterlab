@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y openjdk-8-jdk openjdk-8-jre
 RUN R CMD javareconf
 
 # r-java
-RUN apt-get install r-cran-rjava -y
+RUN apt-get install -y r-cran-rjava 
 
 RUN R -e 'install.packages(c("devtools", "remotes", "RcppEigen"), repos = "http://cran.rstudio.com/")'
 RUN R -e 'install.packages("tidyverse", dependencies = TRUE, repos = "http://cran.rstudio.com/")'
@@ -69,129 +69,130 @@ RUN export PATH=/usr/local/lib:/usr/bin:/usr/local/bin:/ricopili/dependencies/Mi
     export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/bin/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig
 
 #Standard CRAN packages
-RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
-    Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
-    Rscript -e "install.packages(c('bigstatsr', 'bigsnpr', 'corrgram', 'corrplot', 'cowplot'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('data.table', 'DescTools', 'pbkrtest', 'doBy', 'dplyr'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('extrafont', 'extrafontdb', 'foreign', 'forestplot', 'forestploter'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('randomForest', 'RColorBrewer', 'readxl', 'reshape', 'reshape2'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('gdata', 'ggcorrplot', 'ggplot2', 'ggstats', 'gtools'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('gwasrapidd', 'haven', 'igraph', 'jpeg', 'lattice'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('lubridate', 'meta', 'metafor', 'MetaSKAT', 'rpf'), repos='http://cran.rstudio.com/')" && \ 
-    Rscript -e "install.packages(c('OpenMx', 'pheatmap', 'plyr', 'png', 'poolr', 'psych'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('rmarkdown', 'scatterplot3d', 'scales', 'sem', 'semTools', 'stringr'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('sysfonts', 'systemfonts', 'tibble', 'tidyr', 'ukbtools', 'VennDiagram'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('viridis', 'viridisLite', 'vroom', 'writexl', 'WriteXLS', 'xtable'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('mvoutlier', 'qqman', 'rsq', 'xlsx', 'xlsxjars'), repos='http://cran.rstudio.com/')"
+#RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
+ #   Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
+  #  Rscript -e "install.packages(c('bigstatsr', 'bigsnpr', 'corrgram', 'corrplot', 'cowplot'), repos='http://cran.rstudio.com/')" && \
+   # Rscript -e "install.packages(c('data.table', 'DescTools', 'pbkrtest', 'doBy', 'dplyr'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('extrafont', 'extrafontdb', 'foreign', 'forestplot'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('randomForest', 'RColorBrewer', 'readxl', 'reshape', 'reshape2'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('gdata', 'ggcorrplot', 'ggplot2', 'ggstats', 'gtools'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('gwasrapidd', 'haven', 'igraph', 'jpeg', 'lattice'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('lubridate', 'meta', 'metafor', 'MetaSKAT', 'rpf'), repos='http://cran.rstudio.com/')" && \ 
+    #Rscript -e "install.packages(c('OpenMx', 'pheatmap', 'plyr', 'png', 'poolr', 'psych'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('rmarkdown', 'scatterplot3d', 'scales', 'sem', 'semTools', 'stringr'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('sysfonts', 'systemfonts', 'tibble', 'tidyr', 'ukbtools', 'VennDiagram'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('viridis', 'viridisLite', 'vroom', 'writexl', 'WriteXLS', 'xtable'), repos='http://cran.rstudio.com/')" && \
+    #Rscript -e "install.packages(c('mvoutlier', 'qqman', 'rsq', 'xlsx', 'xlsxjars'), repos='http://cran.rstudio.com/')"
     
 #Bioconductor packages
-RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
-    Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
-    Rscript -e 'install.packages("BiocManager", repos="https://cloud.r-project.org")' && \
-    Rscript -e "BiocManager::install('AnnotationDbi')" && \
-    Rscript -e "BiocManager::install('BiocFileCache')" && \
-    Rscript -e "BiocManager::install('biomaRt')" && \
-    Rscript -e "BiocManager::install('GenomicFeatures')"
-    Rscript -e "BiocManager::install('VariantAnnotation')"
-    Rscript -e "BiocManager::install('org.Hs.eg.db')" && \
-    Rscript -e "BiocManager::install('Rgraphviz')" && \
-    Rscript -e "BiocManager::install('RBGL')"
+#RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
+ #   Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
+  #  Rscript -e 'install.packages("BiocManager", repos="https://cloud.r-project.org")' && \
+   # Rscript -e "BiocManager::install('AnnotationDbi')" && \
+    #Rscript -e "BiocManager::install('BiocFileCache')" && \
+    #Rscript -e "BiocManager::install('biomaRt')" && \
+    #Rscript -e "BiocManager::install('GenomicFeatures')"
+    #Rscript -e "BiocManager::install('VariantAnnotation')"
+    #Rscript -e "BiocManager::install('org.Hs.eg.db')" && \
+    #Rscript -e "BiocManager::install('Rgraphviz')" && \
+    #Rscript -e "BiocManager::install('RBGL')"
 
-RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
-    Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
-    #Bioconductor packages
-    Rscript -e "BiocManager::install('ASSET')" && \
-    Rscript -e "BiocManager::install('gwascat')" && \
-    Rscript -e "BiocManager::install('snpStats')"
-    #install snpStats first otherwise LAVA install won't work: dependency ‘snpStats’ is not available for package ‘LAVA’
+#RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
+ #   Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
+  #  #Bioconductor packages
+   # Rscript -e "BiocManager::install('ASSET')" && \
+    #Rscript -e "BiocManager::install('gwascat')" && \
+    #Rscript -e "BiocManager::install('snpStats')"
+    ##install snpStats first otherwise LAVA install won't work: dependency ‘snpStats’ is not available for package ‘LAVA’
     
 #GitHub packages
-RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
-    Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
-    #Sys.unsetenv("GITHUB_PAT")
-    #Rscript -e "remotes::install_github('kenhanscombe/ukbtools', 'ramiromagno/gwasrapidd', 'privefl/bigsnpr', 'leeshawn/MetaSKAT', 'ozancinar/poolR'))" && \
-    #ukbtools gwasrapidd bigsnpr MetaSKAT poolR are now on cran so they get installed with standard packages
-    Rscript -e "remotes::install_github('talgalili/d3heatmap')" && \
-    Rscript -e "remotes::install_github('DudbridgeLab/avengeme')" && \
-    #AVENGEME is a package for polygenic scoring analysis
-    Rscript -e "remotes::install_github('GenABEL-Project/GenABEL.data')" && \
-    Rscript -e "remotes::install_github('MathiasHarrer/dmetar')" && \
-    Rscript -e "remotes::install_github('kassambara/easyGgplot2')" && \
-    Rscript -e "remotes::install_github('josefin-werme/LAVA')" && \
-    #setRepositories(ind = 1:6)
-    Rscript -e "remotes::install_github('weizhouUMICH/SAIGE')" && \
-    #SAIGE is an R package with Scalable and Accurate Implementation of Generalized mixed model.
-    Rscript -e "remotes::install_github('merns/postgwas')" && \
-    Rscript -e "remotes::install_github('MRCIEU/TwoSampleMR')" && \
-    Rscript -e "remotes::install_github('GenomicSEM/GenomicSEM')" && \
-    Rscript -e "installed.packages(); .libPaths(); .libPaths( c( .libPaths(), '/ricopili/dependencies/R_packages', '/usr/local/lib/R/site-library') )"
+#RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
+ #   Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
+  #  #Sys.unsetenv("GITHUB_PAT")
+   # #Rscript -e "remotes::install_github('kenhanscombe/ukbtools', 'ramiromagno/gwasrapidd', 'privefl/bigsnpr', 'leeshawn/MetaSKAT', 'ozancinar/poolR'))" && \
+    ##ukbtools gwasrapidd bigsnpr MetaSKAT poolR are now on cran so they get installed with standard packages
+    #Rscript -e "remotes::install_github('talgalili/d3heatmap')" && \
+    #Rscript -e "remotes::install_github("adayim/forestploter')" && \
+    #Rscript -e "remotes::install_github('DudbridgeLab/avengeme')" && \
+    ##AVENGEME is a package for polygenic scoring analysis
+    #Rscript -e "remotes::install_github('GenABEL-Project/GenABEL.data')" && \
+    #Rscript -e "remotes::install_github('MathiasHarrer/dmetar')" && \
+    #Rscript -e "remotes::install_github('kassambara/easyGgplot2')" && \
+    #Rscript -e "remotes::install_github('josefin-werme/LAVA')" && \
+    ##setRepositories(ind = 1:6)
+    #Rscript -e "remotes::install_github('weizhouUMICH/SAIGE')" && \
+    ##SAIGE is an R package with Scalable and Accurate Implementation of Generalized mixed model.
+    #Rscript -e "remotes::install_github('merns/postgwas')" && \
+    #Rscript -e "remotes::install_github('MRCIEU/TwoSampleMR')" && \
+    #Rscript -e "remotes::install_github('GenomicSEM/GenomicSEM')" && \
+    #Rscript -e "installed.packages(); .libPaths(); .libPaths( c( .libPaths(), '/ricopili/dependencies/R_packages', '/usr/local/lib/R/site-library') )"
 
 #Additional genetics tools
-RUN curl -Lo /tmp/bedtools-2.30.0.tgz https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools-2.30.0.tar.gz && \
-    tar zxvf /tmp/bedtools-2.30.0.tgz -C /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/bedtools-2.30.0.tgz 
-RUN cd /tmp/ && git clone https://github.com/vcftools/vcftools.git && \
-    cd /tmp/vcftools && ./autogen.sh && ./configure && make && make install && \
-    cp -r /tmp/vcftools /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm -r /tmp/vcftools 
-RUN cd /tmp/ && git clone https://github.com/gkichaev/PAINTOR_V3.0.git && \
-    cd /tmp/PAINTOR_V3.0 && bash install.sh && \
-    cp -r /tmp/PAINTOR_V3.0 /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm -r /tmp/PAINTOR_V3.0 
-RUN curl -Lo /tmp/gcta-1.94.1.zip https://yanglab.westlake.edu.cn/software/gcta/bin/gcta-1.94.1-linux-kernel-3-x86_64.zip && \
-    unzip /tmp/gcta-1.94.1.zip -d /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/gcta-1.94.1.zip 
-RUN curl -Lo /tmp/locuszoom_1.3.tgz https://statgen.sph.umich.edu/locuszoom/download/locuszoom_1.3.tgz && \
-    tar zxvf /tmp/locuszoom_1.3.tgz -C /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/locuszoom_1.3.tgz 
-RUN curl -Lo /tmp/finemap_v1.1.tgz http://www.christianbenner.com/finemap_v1.1_x86_64.tgz && \
-    tar zxvf /tmp/finemap_v1.1.tgz -C /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/finemap_v1.1.tgz 
-RUN curl -Lo /tmp/magma_v1.10.zip https://ctg.cncr.nl/software/MAGMA/prog/magma_v1.10.zip && \
-    unzip /tmp/magma_v1.10.zip -d /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/magma_v1.10.zip 
-RUN curl -Lo /tmp/annovar.tgz http://www.openbioinformatics.org/annovar/download/0wgxR2rIVP/annovar.latest.tar.gz && \
-    tar zxvf /tmp/annovar.tgz -C /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/annovar.tgz 
-RUN curl -Lo /tmp/PRSice_2.3.5.zip https://github.com/choishingwan/PRSice/releases/download/2.3.5/PRSice_linux.zip && \
-    unzip /tmp/PRSice_2.3.5.zip -d /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/PRSice_2.3.5.zip
-RUN curl -Lo /tmp/mach_1.0.18.tgz http://csg.sph.umich.edu/abecasis/MaCH/download/mach.1.0.18.Linux.tgz && \
-    tar zxvf /tmp/mach_1.0.18.tgz -C /ricopili/dependencies/ && \
-    chmod 755 /ricopili/dependencies/ && \
-    rm /tmp/mach_1.0.18.tgz
-RUN cd /tmp/ && git clone https://github.com/fhormoz/caviar.git
-    #cd /tmp/caviar/CAVIAR-C++ && make && make install && \
-    #cp -r /tmp/caviar /ricopili/dependencies/ && \
-    #chmod 755 /ricopili/dependencies/ && \
-    #rm -r /tmp/caviar   
+#RUN curl -Lo /tmp/bedtools-2.30.0.tgz https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools-2.30.0.tar.gz && \
+ #   tar zxvf /tmp/bedtools-2.30.0.tgz -C /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/bedtools-2.30.0.tgz 
+#RUN cd /tmp/ && git clone https://github.com/vcftools/vcftools.git && \
+ #   cd /tmp/vcftools && ./autogen.sh && ./configure && make && make install && \
+  #  cp -r /tmp/vcftools /ricopili/dependencies/ && \
+   # chmod 755 /ricopili/dependencies/ && \
+    #rm -r /tmp/vcftools 
+#RUN cd /tmp/ && git clone https://github.com/gkichaev/PAINTOR_V3.0.git && \
+ #   cd /tmp/PAINTOR_V3.0 && bash install.sh && \
+  #  cp -r /tmp/PAINTOR_V3.0 /ricopili/dependencies/ && \
+   # chmod 755 /ricopili/dependencies/ && \
+    #rm -r /tmp/PAINTOR_V3.0 
+#RUN curl -Lo /tmp/gcta-1.94.1.zip https://yanglab.westlake.edu.cn/software/gcta/bin/gcta-1.94.1-linux-kernel-3-x86_64.zip && \
+ #   unzip /tmp/gcta-1.94.1.zip -d /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/gcta-1.94.1.zip 
+#RUN curl -Lo /tmp/locuszoom_1.3.tgz https://statgen.sph.umich.edu/locuszoom/download/locuszoom_1.3.tgz && \
+ #   tar zxvf /tmp/locuszoom_1.3.tgz -C /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/locuszoom_1.3.tgz 
+#RUN curl -Lo /tmp/finemap_v1.1.tgz http://www.christianbenner.com/finemap_v1.1_x86_64.tgz && \
+ #   tar zxvf /tmp/finemap_v1.1.tgz -C /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/finemap_v1.1.tgz 
+#RUN curl -Lo /tmp/magma_v1.10.zip https://ctg.cncr.nl/software/MAGMA/prog/magma_v1.10.zip && \
+ #   unzip /tmp/magma_v1.10.zip -d /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/magma_v1.10.zip 
+#RUN curl -Lo /tmp/annovar.tgz http://www.openbioinformatics.org/annovar/download/0wgxR2rIVP/annovar.latest.tar.gz && \
+ #   tar zxvf /tmp/annovar.tgz -C /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/annovar.tgz 
+#RUN curl -Lo /tmp/PRSice_2.3.5.zip https://github.com/choishingwan/PRSice/releases/download/2.3.5/PRSice_linux.zip && \
+ #   unzip /tmp/PRSice_2.3.5.zip -d /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/PRSice_2.3.5.zip
+#RUN curl -Lo /tmp/mach_1.0.18.tgz http://csg.sph.umich.edu/abecasis/MaCH/download/mach.1.0.18.Linux.tgz && \
+ #   tar zxvf /tmp/mach_1.0.18.tgz -C /ricopili/dependencies/ && \
+  #  chmod 755 /ricopili/dependencies/ && \
+   # rm /tmp/mach_1.0.18.tgz
+#RUN cd /tmp/ && git clone https://github.com/fhormoz/caviar.git
+ #   #cd /tmp/caviar/CAVIAR-C++ && make && make install && \
+  #  #cp -r /tmp/caviar /ricopili/dependencies/ && \
+   # #chmod 755 /ricopili/dependencies/ && \
+    ##rm -r /tmp/caviar   
 
 #MiXeR - (was MATLAB and) Python-based 
-RUN cd /tmp/ && git clone --recurse-submodules -j8 https://github.com/precimed/mixer.git && \
-    mkdir mixer/src/build && cd mixer/src/build && \
-    #cmake .. && make bgmg -j16 && \                                # if you use GCC compiler
-    #CC=icc CXX=icpc cmake .. && make bgmg -j16 && \                # if you use Intel compiler
-    #cmake .. -DBOOST_ROOT=$HOME/boost_1_69_0 && make bgmg -j16 && \  # if you use locally compiled boost
-    cp -r /tmp/mixer /ricopili/dependencies/ && rm -r /tmp/mixer
+#RUN cd /tmp/ && git clone --recurse-submodules -j8 https://github.com/precimed/mixer.git && \
+ #   mkdir mixer/src/build && cd mixer/src/build && \
+  #  #cmake .. && make bgmg -j16 && \                                # if you use GCC compiler
+   # #CC=icc CXX=icpc cmake .. && make bgmg -j16 && \                # if you use Intel compiler
+    ##cmake .. -DBOOST_ROOT=$HOME/boost_1_69_0 && make bgmg -j16 && \  # if you use locally compiled boost
+    #cp -r /tmp/mixer /ricopili/dependencies/ && rm -r /tmp/mixer
 #pleiofdr - MATLAB and Python-based
-RUN cd /tmp/ && git clone https://github.com/precimed/pleiofdr.git && \
-    cd /tmp/pleiofdr && \
-    wget https://precimed.s3-eu-west-1.amazonaws.com/pleiofdr/pleioFDR_demo_data.tar.gz && \
-    tar -xzvf pleioFDR_demo_data.tar.gz && \
-    #matlab -nodisplay -nosplash < runme.m
-    cp -r /tmp/pleiofdr /ricopili/dependencies/ && rm -r /tmp/pleiofdr
+#RUN cd /tmp/ && git clone https://github.com/precimed/pleiofdr.git && \
+ #   cd /tmp/pleiofdr && \
+  #  wget https://precimed.s3-eu-west-1.amazonaws.com/pleiofdr/pleioFDR_demo_data.tar.gz && \
+   # tar -xzvf pleioFDR_demo_data.tar.gz && \
+    ##matlab -nodisplay -nosplash < runme.m
+    #cp -r /tmp/pleiofdr /ricopili/dependencies/ && rm -r /tmp/pleiofdr
 #mostest - MATLAB and Python-based
-RUN cd /tmp/ && git clone https://github.com/precimed/mostest.git && \
-    cp -r /tmp/mostest /ricopili/dependencies/ && rm -r /tmp/mostest
+#RUN cd /tmp/ && git clone https://github.com/precimed/mostest.git && \
+ #   cp -r /tmp/mostest /ricopili/dependencies/ && rm -r /tmp/mostest
 
 #Original dependencies
 ENV PATH=/ricopili/dependencies/Minimac3:/ricopili/dependencies/bcftools:/ricopili/dependencies/bgzip:/ricopili/dependencies/eagle:/ricopili/dependencies/eigensoft/EIG-6.1.4/bin:/ricopili/dependencies/impute_v2:/ricopili/dependencies/impute_v4:/ricopili/dependencies/latex:/ricopili/dependencies/ldsc:/ricopili/dependencies/liftover:/ricopili/dependencies/metal:/ricopili/dependencies/shapeit:/ricopili/dependencies/shapeit3:/ricopili/dependencies/tabix:$PATH
