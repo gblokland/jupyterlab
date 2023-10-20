@@ -4,10 +4,11 @@ LABEL org.opencontainers.image.source="https://github.com/gblokland/jupyterlab"
 
 WORKDIR /root
 
-FROM rocker/rstudio:latest
-#FROM rocker/rstudio:4.0.0
-#FROM rocker/rstudio-stable:3.4.4 #this R is version 3.3.3, several packages need at least 3.5 or 3.6
-#FROM rocker/r-base:4.2.2
+#FROM rocker/rstudio:latest
+FROM rocker/r-ver:4.0.0
+##FROM rocker/rstudio:4.0.0
+##FROM rocker/rstudio-stable:3.4.4 #this R is version 3.3.3, several packages need at least 3.5 or 3.6
+##FROM rocker/r-base:4.2.2
 
 MAINTAINER Gabriella Blokland
 
