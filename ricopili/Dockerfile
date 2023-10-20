@@ -71,11 +71,14 @@ RUN export PATH=/usr/local/lib:/usr/bin:/usr/local/bin:/ricopili/dependencies/Mi
 #Standard CRAN packages
 RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
-    Rscript -e "install.packages(c('bigsnpr', 'corrgram', 'corrplot', 'cowplot', 'd3heatmap', 'data.table', 'DescTools', 'pbkrtest', 'doBy'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('dplyr', 'extrafont', 'extrafontdb', 'foreign', 'forestplot', 'forestploter'), repos='http://cran.rstudio.com/')" && \
+    Rscript -e "install.packages(c('bigstatsr', 'bigsnpr', 'corrgram', 'corrplot', 'cowplot'), repos='http://cran.rstudio.com/')" && \
+    Rscript -e "install.packages(c('data.table', 'DescTools', 'pbkrtest', 'doBy', 'dplyr'), repos='http://cran.rstudio.com/')" && \
+    Rscript -e "install.packages(c('extrafont', 'extrafontdb', 'foreign', 'forestplot', 'forestploter'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('randomForest', 'RColorBrewer', 'readxl', 'reshape', 'reshape2'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('gdata', 'ggcorrplot', 'ggplot2', 'ggstats', 'gtools', 'gwasrapidd', 'haven', 'igraph', 'jpeg', 'lattice'), repos='http://cran.rstudio.com/')" && \
-    Rscript -e "install.packages(c('lubridate', 'meta', 'metafor', 'MetaSKAT', 'rpf', 'OpenMx', 'pheatmap', 'plyr', 'png', 'poolr', 'psych'), repos='http://cran.rstudio.com/')" && \
+    Rscript -e "install.packages(c('gdata', 'ggcorrplot', 'ggplot2', 'ggstats', 'gtools'), repos='http://cran.rstudio.com/')" && \
+    Rscript -e "install.packages(c('gwasrapidd', 'haven', 'igraph', 'jpeg', 'lattice'), repos='http://cran.rstudio.com/')" && \
+    Rscript -e "install.packages(c('lubridate', 'meta', 'metafor', 'MetaSKAT', 'rpf'), repos='http://cran.rstudio.com/')" && \ 
+    Rscript -e "install.packages(c('OpenMx', 'pheatmap', 'plyr', 'png', 'poolr', 'psych'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('rmarkdown', 'scatterplot3d', 'scales', 'sem', 'semTools', 'stringr'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('sysfonts', 'systemfonts', 'tibble', 'tidyr', 'ukbtools', 'VennDiagram'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('viridis', 'viridisLite', 'vroom', 'writexl', 'WriteXLS', 'xtable'), repos='http://cran.rstudio.com/')" && \
@@ -108,6 +111,7 @@ RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     #Sys.unsetenv("GITHUB_PAT")
     #Rscript -e "remotes::install_github('kenhanscombe/ukbtools', 'ramiromagno/gwasrapidd', 'privefl/bigsnpr', 'leeshawn/MetaSKAT', 'ozancinar/poolR'))" && \
     #ukbtools gwasrapidd bigsnpr MetaSKAT poolR are now on cran so they get installed with standard packages
+    Rscript -e "remotes::install_github('talgalili/d3heatmap')" && \
     Rscript -e "remotes::install_github('DudbridgeLab/avengeme')" && \
     #AVENGEME is a package for polygenic scoring analysis
     Rscript -e "remotes::install_github('GenABEL-Project/GenABEL.data')" && \
@@ -119,6 +123,7 @@ RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     #SAIGE is an R package with Scalable and Accurate Implementation of Generalized mixed model.
     Rscript -e "remotes::install_github('merns/postgwas')" && \
     Rscript -e "remotes::install_github('MRCIEU/TwoSampleMR')" && \
+    Rscript -e "remotes::install_github('GenomicSEM/GenomicSEM')" && \
     Rscript -e "installed.packages(); .libPaths(); .libPaths( c( .libPaths(), '/ricopili/dependencies/R_packages', '/usr/local/lib/R/site-library') )"
 
 #Additional genetics tools
