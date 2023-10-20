@@ -68,15 +68,9 @@ ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/bin/pkgconfig:/usr/
 RUN export PATH=/usr/local/lib:/usr/bin:/usr/local/bin:/ricopili/dependencies/Minimac3:/ricopili/dependencies/bcftools:/ricopili/dependencies/bgzip:/ricopili/dependencies/eagle:/ricopili/dependencies/eigensoft/EIG-6.1.4/bin:/ricopili/dependencies/impute_v2:/ricopili/dependencies/impute_v4:/ricopili/dependencies/latex:/ricopili/dependencies/ldsc:/ricopili/dependencies/liftover:/ricopili/dependencies/metal:/ricopili/dependencies/shapeit:/ricopili/dependencies/shapeit3:/ricopili/dependencies/tabix:$PATH  && \
     export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/bin/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig
 
+#Standard CRAN packages
 RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
-    Rscript -e 'install.packages("BiocManager", repos="https://cloud.r-project.org")' && \
-    Rscript -e "BiocManager::install('AnnotationDbi')" && \
-    Rscript -e "BiocManager::install('biomaRt')" && \
-    Rscript -e "BiocManager::install('org.Hs.eg.db')" && \
-    Rscript -e "BiocManager::install('Rgraphviz')" && \
-    Rscript -e "BiocManager::install('RBGL')" && \
-    #Standard packages
     Rscript -e "install.packages(c('bigsnpr', 'corrgram', 'corrplot', 'cowplot', 'd3heatmap', 'data.table', 'DescTools', 'pbkrtest', 'doBy'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('dplyr', 'extrafont', 'extrafontdb', 'foreign', 'forestplot', 'forestploter'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('randomForest', 'RColorBrewer', 'readxl', 'reshape', 'reshape2'), repos='http://cran.rstudio.com/')" && \
@@ -87,23 +81,39 @@ RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     Rscript -e "install.packages(c('viridis', 'viridisLite', 'vroom', 'writexl', 'WriteXLS', 'xtable'), repos='http://cran.rstudio.com/')" && \
     Rscript -e "install.packages(c('mvoutlier', 'qqman', 'rsq', 'xlsx', 'xlsxjars'), repos='http://cran.rstudio.com/')"
     
+#Bioconductor packages
+RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
+    Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
+    Rscript -e 'install.packages("BiocManager", repos="https://cloud.r-project.org")' && \
+    Rscript -e "BiocManager::install('AnnotationDbi')" && \
+    Rscript -e "BiocManager::install('BiocFileCache')" && \
+    Rscript -e "BiocManager::install('biomaRt')" && \
+    Rscript -e "BiocManager::install('GenomicFeatures')"
+    Rscript -e "BiocManager::install('VariantAnnotation')"
+    Rscript -e "BiocManager::install('org.Hs.eg.db')" && \
+    Rscript -e "BiocManager::install('Rgraphviz')" && \
+    Rscript -e "BiocManager::install('RBGL')"
+
 RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
     #Bioconductor packages
     Rscript -e "BiocManager::install('ASSET')" && \
     Rscript -e "BiocManager::install('gwascat')" && \
-    Rscript -e "BiocManager::install('snpStats')" && \
+    Rscript -e "BiocManager::install('snpStats')"
     #install snpStats first otherwise LAVA install won't work: dependency ‘snpStats’ is not available for package ‘LAVA’
-    #GitHub packages
+    
+#GitHub packages
+RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
+    Rscript -e '.libPaths(Sys.getenv("R_LIBS_USER"))' && \
     #Sys.unsetenv("GITHUB_PAT")
     #Rscript -e "remotes::install_github('kenhanscombe/ukbtools', 'ramiromagno/gwasrapidd', 'privefl/bigsnpr', 'leeshawn/MetaSKAT', 'ozancinar/poolR'))" && \
     #ukbtools gwasrapidd bigsnpr MetaSKAT poolR are now on cran so they get installed with standard packages
     Rscript -e "remotes::install_github('DudbridgeLab/avengeme')" && \
     #AVENGEME is a package for polygenic scoring analysis
-    Rscript -e "remotes::install_github('https://github.com/GenABEL-Project/GenABEL.git')" && \
+    Rscript -e "remotes::install_github('GenABEL-Project/GenABEL.data')" && \
     Rscript -e "remotes::install_github('MathiasHarrer/dmetar')" && \
     Rscript -e "remotes::install_github('kassambara/easyGgplot2')" && \
-    Rscript -e "remotes::install_github('https://github.com/josefin-werme/LAVA.git')" && \
+    Rscript -e "remotes::install_github('josefin-werme/LAVA')" && \
     #setRepositories(ind = 1:6)
     Rscript -e "remotes::install_github('weizhouUMICH/SAIGE')" && \
     #SAIGE is an R package with Scalable and Accurate Implementation of Generalized mixed model.
