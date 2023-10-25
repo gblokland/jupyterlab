@@ -46,6 +46,7 @@ RUN echo $PKG_CONFIG_PATH
 
 RUN apt-get update && apt-get install -y python3-pip python3-dev && pip3 install --upgrade pip && pip3 install notebook jupyterlab 
 RUN pip3 install --upgrade setuptools && pip3 install ez_setup
+RUN apt-get update && apt-get install -y python3-scipy python3-h5py
 #RUN sudo chown $(whoami):$(whoami) /.local
 
 #RUN apt-get update && \
@@ -125,6 +126,7 @@ RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     Rscript -e "remotes::install_github('merns/postgwas')" && \
     Rscript -e "remotes::install_github('MRCIEU/TwoSampleMR')" && \
     Rscript -e "remotes::install_github('GenomicSEM/GenomicSEM')" && \
+    #Rscript -e "remotes::install_github('zhilizheng/SBayesRC')" && \
     Rscript -e "installed.packages(); .libPaths(); .libPaths( c( .libPaths(), '/ricopili/dependencies/R_packages', '/usr/local/lib/R/site-library') )"
 
 #Additional genetics tools
@@ -175,6 +177,15 @@ RUN cd /tmp/ && git clone https://github.com/fhormoz/caviar.git
     #cp -r /tmp/caviar /ricopili/dependencies/ && \
     #chmod 755 /ricopili/dependencies/ && \
     ##rm -r /tmp/caviar   
+RUN cd /ricopili/dependencies/ && \
+    git clone https://github.com/getian107/PRScs.git && \
+    wget -r -np -R "index.html*" https://personal.broadinstitute.org/hhuang/public/PRS-CSx/Reference/1KG/ && \
+    wget -r -np -R "index.html*" https://personal.broadinstitute.org/hhuang/public/PRS-CSx/Reference/UKBB/ && \
+    mv personal.broadinstitute.org PRScs_refs && mv PRScs_refs/hhuang/public/PRS-CSx/Reference PRScs && rm -r PRScs_refs
+#GCTB containing SBayesR, SBayesRC, and SBayesS modules
+RUN cd /ricopili/dependencies/ && \
+    wget https://cnsgenomics.com/software/gctb/download/gctb_2.05beta_Linux.zip && \
+    unzip gctb_2.05beta_Linux.zip
 
 #MiXeR - (was MATLAB and) Python-based 
 RUN cd /tmp/ && git clone --recurse-submodules -j8 https://github.com/precimed/mixer.git && \
