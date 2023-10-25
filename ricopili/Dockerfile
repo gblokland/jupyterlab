@@ -46,7 +46,7 @@ RUN echo $PKG_CONFIG_PATH
 
 RUN apt-get update && apt-get install -y python3-pip python3-dev && pip3 install --upgrade pip && pip3 install notebook jupyterlab 
 RUN pip3 install --upgrade setuptools && pip3 install ez_setup
-RUN apt-get update && apt-get install -y python3-scipy python3-h5py
+RUN apt-get update && apt-get install -y python3-scipy python3-numpy python3-h5py
 #RUN sudo chown $(whoami):$(whoami) /.local
 
 #RUN apt-get update && \
