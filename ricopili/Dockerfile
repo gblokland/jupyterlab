@@ -93,8 +93,8 @@ RUN Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)' && \
     Rscript -e "BiocManager::install('AnnotationDbi')" && \
     Rscript -e "BiocManager::install('BiocFileCache')" && \
     Rscript -e "BiocManager::install('biomaRt')" && \
-    Rscript -e "BiocManager::install('GenomicFeatures')"
-    Rscript -e "BiocManager::install('VariantAnnotation')"
+    Rscript -e "BiocManager::install('GenomicFeatures')" && \
+    Rscript -e "BiocManager::install('VariantAnnotation')" && \
     Rscript -e "BiocManager::install('org.Hs.eg.db')" && \
     Rscript -e "BiocManager::install('Rgraphviz')" && \
     Rscript -e "BiocManager::install('RBGL')"
